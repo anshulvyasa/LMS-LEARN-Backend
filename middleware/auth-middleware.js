@@ -18,9 +18,9 @@ const authenticate=(req,res,next)=>{
      }
 
      
-     const token =authHeader.split(' ')[1]  
+     const token =authHeader.split(' ')[1]      //because in front end we do some which will require this split step
      
-                  //see frontEnd code to understand it client/api/axiosInstance 
+     //see frontEnd code to understand it client/api/axiosInstance 
      const payload=verifyToken(token,"JWT_SECRET")
 
      req.user=payload
