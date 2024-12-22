@@ -1,3 +1,5 @@
+//This file basically a helper function that deals with lecture instructor uploading and deletion to and from cloudinary  
+
 const cloudinary = require("cloudinary").v2;
 
 //Configuring cloudinary
@@ -7,6 +9,8 @@ cloudinary.config({
   api_secret: process.env.CLOUDINARY_API_SECRET,
 });
 
+
+//function that helps in uploading files from cloud 
 const uploadMediaToCloudinary = async (filePath) => {
   try {
     const result = await cloudinary.uploader.upload(filePath, {
@@ -19,6 +23,8 @@ const uploadMediaToCloudinary = async (filePath) => {
   }
 };
 
+
+//function that helps in deleting files from cloud 
 const deleteMediaToCloudinary = async (publicId) => {
   try {
     await cloudinary.uploader.destroy(publicId);
