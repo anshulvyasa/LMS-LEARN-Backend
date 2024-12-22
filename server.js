@@ -5,6 +5,7 @@ const mongoose=require('mongoose')
 
 //Routes
 const authRoutes=require('./routes/auth-routes/index')
+const mediaRoutes=require('./routes/instructor-routes/media-routes')
 
 const app=express();
 const PORT=process.env.PORT||5000;
@@ -37,7 +38,9 @@ app.get('/',(req,res)=>{
 })
 
 //rotes configuration
-app.use('/auth',authRoutes)
+app.use('/auth',authRoutes);
+app.use('/media',mediaRoutes);
+
 
 
 app.use((err,req,res,next)=>{
