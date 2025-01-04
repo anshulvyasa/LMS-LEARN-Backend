@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 
 const LectureSchema = new mongoose.Schema({
   title: String,
-  videoUrl: String,
+  vedioUrl: String,
   public_id: String,
   freePreview: Boolean,
 });
@@ -16,7 +16,7 @@ const CourseSchema = new mongoose.Schema({
   level: String,
   primaryLanguage: String,
   subtitle: String,
-  Description: String,
+  description: String,
   image: String,
   welcomeMessage: String,
   pricing: Number,
