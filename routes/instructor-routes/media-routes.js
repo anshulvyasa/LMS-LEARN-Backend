@@ -10,11 +10,10 @@ const {
 const router = express.Router();
 const upload = multor({ dest: "uploads/" });
 
-
 //this route is to used to upload a file to cloudinary
 router.post("/upload", upload.single("file"), async (req, res) => {
   try {
-    const result =await uploadMediaToCloudinary(req.file.path);
+    const result = await uploadMediaToCloudinary(req.file.path);
     res.status(200).json({
       success: true,
       data: result,
@@ -26,7 +25,6 @@ router.post("/upload", upload.single("file"), async (req, res) => {
     });
   }
 });
-
 
 //this route handle is for deleting a file from cloudinary
 router.delete("/delete/:id", async (req, res) => {
@@ -51,6 +49,27 @@ router.delete("/delete/:id", async (req, res) => {
     res.status(500).json({
       success: false,
       message: "Error Deleting File",
+    });
+  }
+});
+
+router.post("/bulk-upload", upload.array("files", 10), async (req, res) => {
+  try {
+    const uploadPromises = req.files.map((fileItem) =>
+      uploadMediaToCloudinary(fileItem.path)
+    );
+    const result = await Promise.all(uploadPromises);
+
+    res.status(200).json({
+      success: true,
+      data: result,
+    });
+  } catch (error) {
+    console.log(error);
+
+    res.status(500).json({
+      success: false,
+      message: "Error in bulk uploading",
     });
   }
 });
