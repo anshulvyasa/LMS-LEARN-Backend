@@ -2,15 +2,45 @@ const Course = require("../../models/course");
 
 const getAllStudentViewCourses = async (req, res) => {
   try {
-    const courseList = await Course.find({});
+    const {
+      category = [],
+      level = [],
+      primaryLanguage = [],
+      sortby = "price-lowtohigh",
+    } = req.query;
 
-    if (courseList.length === 0) {
-      return res.status(404).json({
-        success: false,
-        message: "No Course Found",
-        data: [],
-      });
+
+    let filters = {};
+    if (category.length) {
+      filters.category = { $in: category.split(",") };
     }
+    if (level.length) {
+      filters.level = { $in: level.split(",") };
+    }
+    if (primaryLanguage.length) {
+      filters.primaryLanguage = { $in: primaryLanguage.split(",") };
+    }
+
+    const sortParams = {};
+    switch (sortby) {
+      case "price-lowtohigh":
+        sortParams.pricing = 1;
+        break;
+      case "price-hightolow":
+        sortParams.pricing = -1;
+        break;
+      case "title-atoz":
+        sortParams.title = 1;
+        break;
+      case "title-ztoa":
+        sortParams.title = -1;
+        break;
+      default:
+        sortParams.pricing = 1;
+        break;
+    }
+
+    const courseList = await Course.find(filters).sort(sortParams);
 
     res.status(200).json({
       success: true,
@@ -51,6 +81,4 @@ const getStudentViewCoursesDetails = async (req, res) => {
   }
 };
 
-
-
-module.exports={getAllStudentViewCourses,getStudentViewCoursesDetails}
+module.exports = { getAllStudentViewCourses, getStudentViewCoursesDetails };
