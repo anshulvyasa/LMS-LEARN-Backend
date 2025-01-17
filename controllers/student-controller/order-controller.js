@@ -165,7 +165,7 @@ const capturePaymentAndFinalizeOrder = async (req, res) => {
     //update the course schema students
     await Course.findByIdAndUpdate(order.courseId, {
       $addToSet: {
-        students: {
+        Student: {
           studentId: order.userId,
           studentName: order.userName,
           studentEmail: order.userEmail,

@@ -25,14 +25,19 @@ const getCoursesByStudentId = async (req, res) => {
 
 const getStudentBoughtCourseStatus = async (req, res) => {
   const { courseId, studentId } = req.params;
+  
 
   const userCourseDetail = await StudentCourses.findOne({
     userId: studentId,
   });
+   
+  let courseBoughtStatus=false;
 
-  const courseBoughtStatus =
+  if(userCourseDetail){
+    courseBoughtStatus =
     userCourseDetail.courses.findIndex((item) => item.courseId === courseId) >
     -1;
+  }
 
    res.status(200).json({
     success:true,
