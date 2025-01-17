@@ -169,8 +169,6 @@ const resetCurrentProgress = async (req, res) => {
   try {
     const { userId, courseId } = req.body;
 
-    console.log("UserId : ", userId, " CourseId : ", courseId);
-
     const progress = await CourseProgress.findOne({
       userId,
       courseId,
